@@ -3,6 +3,7 @@ const utils = require("utility");
 const Router = express.Router();
 const model = require("./model");
 const User = model.getModel("user");
+const _filter = { password: 0, __v: 0 };
 
 Router.get("/list", (req, res) => {
   //REMOVE ALL USER!
@@ -15,7 +16,7 @@ Router.post("/login", (req, res) => {
   const { username, password } = req.body;
   User.findOne(
     { username, password: md5Password(password) },
-    { password: 0 },
+    _filter,
     (err, doc) => {
       if (!doc) {
         return res.json({
@@ -23,14 +24,14 @@ Router.post("/login", (req, res) => {
           msg: "The password or username you've entered is incorrect.",
         });
       }
+      res.cookie("userid", doc._id);
       return res.json({ code: 0, data: doc });
     }
   );
 });
 Router.post("/register", (req, res) => {
-  console.log(req.body);
   const { username, password, identity } = req.body;
-  User.findOne({ username: username }, (err, doc) => {
+  User.findOne({ username: username }, _filter, (err, doc) => {
     if (doc) {
       return res.json({ code: 1, msg: "username has already been used" });
     }
@@ -46,8 +47,18 @@ Router.post("/register", (req, res) => {
   });
 });
 Router.get("/info", (req, res) => {
-  //user with cookie
-  return res.json({ code: 1 });
+  const { userid } = req.cookies;
+  if (!userid) {
+    return res.json({ code: 1 });
+  }
+  User.findOne({ _id: userid }, _filter, (err, doc) => {
+    if (err) {
+      return res.json({ code: 1, msg: "server error" });
+    }
+    if (doc) {
+      return res.json({ code: 0, data: doc });
+    }
+  });
 });
 const md5Password = (password) => {
   const salt = "enhanced_password_sad~23@2dD#GWvX~WEe&23dx";

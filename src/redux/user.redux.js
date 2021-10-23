@@ -3,6 +3,7 @@ import { getRedirectPath } from "../util";
 const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const ERROR_MSG = "ERROR_MSG";
+const LOAD_DATA = "LOAD_DATA";
 
 const initState = {
   msg: "",
@@ -32,6 +33,11 @@ export const user = (state = initState, action) => {
         redirectTo: getRedirectPath(action.payload),
         ...action.payload,
       };
+    case "LOAD_DATA":
+      return {
+        ...state,
+        ...action.payload,
+      };
     case "ERROR_MSG":
       return {
         ...state,
@@ -51,6 +57,9 @@ const loginSuccess = (data) => {
 };
 const errorMsg = (msg) => {
   return { msg, type: ERROR_MSG };
+};
+export const loadDate = (userInfo) => {
+  return { type: LOAD_DATA, payload: userInfo };
 };
 
 export const register = ({ username, password, repeatPassword, identity }) => {

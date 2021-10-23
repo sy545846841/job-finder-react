@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
+import { loadDate } from "../../redux/user.redux";
 
 const Authroute = () => {
   const history = useHistory();
-  const pathname = useLocation().pathname;
-  const publicList = ["/login", "/register"];
+  // const pathname = useLocation().pathname;
+  // const publicList = ["/login", "/register"];
   //   if (publicList.indexOf(pathname) > -1) {
   //     return null;
   //   }
@@ -16,16 +17,11 @@ const Authroute = () => {
         if (res.data.code === 0) {
           //had login info
         } else {
-          console.log(res.data.code);
+          // loadDate(res.data.data);
           history.push("/login");
         }
       }
     });
-    //is logged?
-    //current url
-    //identity?
-    //user info completed
-    //
   }, [history]);
   return (
     <div>

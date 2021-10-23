@@ -1,17 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../components/logo/logo";
-import { Button } from "antd-mobile";
+import { useHistory, Redirect } from "react-router-dom";
+import { Button, Input, Space, Radio } from "antd";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { register, user } from "../../redux/user.redux";
 
 const Register = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [identity, setIdentity] = useState("employee");
+  const user = {
+    username,
+    password,
+    repeatPassword,
+    identity,
+  };
+  const redirectTo = useSelector((state) => state.user.redirectTo);
+  console.log("redirect: " + redirectTo);
+
   return (
     <div>
+      {redirectTo ? <Redirect to={redirectTo} /> : null}
       <Logo />
-      <h2>Register Page</h2>
-
-      <Button type="primary">Log in</Button>
-      <Button type="primary">Sign up</Button>
+      <StyleRegister>
+        <h2>Register</h2>
+        <Space direction="vertical">
+          <Input
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+          <Input.Password
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <Input.Password
+            onChange={(e) => setRepeatPassword(e.target.value)}
+            placeholder="Comfirm Password"
+          />
+          <Radio.Group
+            onChange={(e) => setIdentity(e.target.value)}
+            value={identity}
+          >
+            <Radio value="employee">Employee</Radio>
+            <Radio value="employer">Employer</Radio>
+          </Radio.Group>
+          <Button
+            onClick={() => {
+              dispatch(register(user));
+            }}
+            type="primary"
+          >
+            Sign Up
+          </Button>
+        </Space>
+      </StyleRegister>
     </div>
   );
 };
 
+const StyleRegister = styled.div`
+  text-align: center;
+`;
 export default Register;

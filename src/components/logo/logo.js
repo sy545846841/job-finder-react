@@ -15,7 +15,7 @@ const StyledImg = styled.div`
   padding: 3rem 0rem;
   text-align: center;
   img {
-    height: 40vh;
+    height: 30vh;
   }
 `;
 

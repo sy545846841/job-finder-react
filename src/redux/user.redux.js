@@ -9,7 +9,6 @@ const initState = {
   msg: "",
   isAuth: false,
   username: "",
-  password: "",
   type: "",
   redirectTo: "",
 };
@@ -58,8 +57,9 @@ const loginSuccess = (data) => {
 const errorMsg = (msg) => {
   return { msg, type: ERROR_MSG };
 };
-export const loadDate = (userInfo) => {
-  return { type: LOAD_DATA, payload: userInfo };
+export const loadDate = (userinfo) => {
+  console.log("user info:" + userinfo);
+  return { type: LOAD_DATA, payload: userinfo };
 };
 
 export const register = ({ username, password, repeatPassword, identity }) => {

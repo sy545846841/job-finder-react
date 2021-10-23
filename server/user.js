@@ -41,7 +41,10 @@ Router.post("/register", (req, res) => {
         if (err) {
           return res.json({ code: 1, msg: "server error" });
         }
-        return res.json({ code: 0 });
+
+        const { username, identity, _id } = doc;
+        res.cookie("userid", _id);
+        return res.json({ code: 0, data: { username, identity, _id } });
       }
     );
   });

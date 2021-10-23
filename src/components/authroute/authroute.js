@@ -25,11 +25,7 @@ const Authroute = () => {
       }
     });
   });
-  return (
-    <div>
-      <p>jumped</p>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Authroute;

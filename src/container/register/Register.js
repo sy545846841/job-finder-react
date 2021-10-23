@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Logo from "../../components/logo/logo";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Button, Input, Space, Radio } from "antd";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { register, user } from "../../redux/user.redux";
+import { register } from "../../redux/user.redux";
 
 const Register = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +19,6 @@ const Register = () => {
     identity,
   };
   const redirectTo = useSelector((state) => state.user.redirectTo);
-  console.log("redirect: " + redirectTo);
 
   return (
     <div>
@@ -28,6 +26,7 @@ const Register = () => {
       <Logo />
       <StyleRegister>
         <h2>Register</h2>
+
         <Space direction="vertical">
           <Input
             onChange={(e) => setUsername(e.target.value)}
@@ -65,4 +64,5 @@ const Register = () => {
 const StyleRegister = styled.div`
   text-align: center;
 `;
+
 export default Register;

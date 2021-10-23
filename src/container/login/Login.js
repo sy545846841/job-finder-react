@@ -12,14 +12,12 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const redirectTo = useSelector((state) => state.user.redirectTo);
-  console.log("redirect: " + redirectTo);
 
   return (
     <div>
       {redirectTo ? <Redirect to={redirectTo} /> : null}
       <Logo />
       <StyleLogin>
-        <h2>Login</h2>
         <Space direction="vertical">
           <Input
             placeholder="Username"
